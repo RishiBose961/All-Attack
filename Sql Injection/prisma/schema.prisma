@@ -1,0 +1,39 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model UserInjection {
+  id           Int     @id @default(autoincrement())
+  first_name   String?
+  last_name    String?
+  email        String  @unique
+  username     String  @unique
+  password     String
+  phone_number String?
+  avatar       String?
+}
+
+model CardAvl {
+  id          Int    @id @default(autoincrement())
+  amount      Int
+  card_number String @unique
+  card_type   String
+}
+
+model Transaction {
+  id             Int      @id @default(autoincrement())
+  amount         Int
+  senderCardId   Int
+  receiverCardId Int
+  created_at     DateTime @default(now())
+}
