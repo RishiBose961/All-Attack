@@ -59,16 +59,51 @@ export const loginUserVulnerable = async (req, res) => {
   const { username, password } = req.body;
   const query = `SELECT * FROM "UserInjection" WHERE username = '${username}' AND password = '${password}'`;
   const users = await prisma.$queryRawUnsafe(query);
-  //sql: query
-  res.json({  users });
+  res.json({ sql: query, users });
 };
 
+
+// export const loginUser = async (req, res) => {
+//   try {
+//     const { username, password } = req.body;
+
+//     if (!username || !password) {
+//       return res.status(400).json({
+//         message: "Username and password are required",
+//       });
+//     }
+
+//     const user = await prisma.userInjection.findFirst({
+//       where: {
+//         username: username,
+//         password: password,
+//       },
+//     });
+
+//     if (!user) {
+//       return res.status(401).json({
+//         message: "Invalid username or password",
+//       });
+//     }
+
+//     return res.status(200).json({
+//       message: "Login successful",
+//       user,
+//     });
+//   } catch (error) {
+//     console.error("Login error:", error);
+
+//     return res.status(500).json({
+//       message: "Internal server error",
+//     });
+//   }
+// };
 
 export const searchUsersVulnerable = async (req, res) => {
   const { username } = req.query;
   const query = `
-    SELECT id, username, name, avatar
-    FROM "User"
+    SELECT id, username, email, avatar
+    FROM "UserInjection"
     WHERE username LIKE '%${username}%'
   `;
   console.log("SQL:", query);
